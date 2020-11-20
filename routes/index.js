@@ -9,7 +9,6 @@ router.get('/', function(req, res, next) {
   res.sendFile('home.html', {
     root: path.join(__dirname, '../')
 })
-  //res.sendFile('home.html');
 });
 
 module.exports = router;
