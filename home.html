@@ -1,6 +1,38 @@
 <html>
-    <head><title>Login page</title></head>
-       <body>
-           <h1>Login Page </h1>
-       </body>
+<title>Login Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<style>
+body,h1 {font-family: "Raleway", sans-serif}
+body, html {height: 100%}
+.bgimg {
+  background-image: url('/images/img1.png');
+  min-height: 100%;
+  background-position: center;
+  background-size: cover;
+}
+</style>
+<body>
+
+<div class="bgimg w3-display-container w3-animate-opacity w3-text-black">
+  <div class="w3-display-topleft w3-padding-large w3-xlarge">
+    SGS
+  </div>
+  <div class="w3-display-centerleft w3-padding-large w3-xlarge">
+  <p>Student Grievances Support System</p>
+  <form action="/user" method="POST">
+    <label for="uname">Username:</label><br>
+    <input type="text" id="uname" name="uname" required><br>
+    <label for="pwd">Password:</label><br>
+    <input type="password" id="pwd" name="pwd" required><br><br>
+    <input type="submit" value="Submit">
+  </form>     
+    </div>
+
+</div>
+</div>
+
+</body>
 </html>
