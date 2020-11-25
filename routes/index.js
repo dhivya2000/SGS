@@ -4,11 +4,9 @@ var router = express.Router();
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   //res.render('index', { title: 'Express' })
-  res.sendFile('home.html', {
-    root: path.join(__dirname, '../')
-})
+  res.render('home');
 });
 
 module.exports = router;

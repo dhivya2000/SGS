@@ -12,13 +12,21 @@ const comtypeDetails = require('./models/comtype');
 const comDetails = require('./models/complaints');
 const mongoose = require('mongoose');
 const url = 'mongodb://localhost:27017/SGS';
-const connect = mongoose.connect(url);
+const connect = mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 var app = express();
+mongoose.set('useCreateIndex', true);
+
+
 
 // view engine setup
+var cons = require('consolidate');
+
+// view engine setup
+app.engine('html', cons.swig)
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.use(express.static(__dirname+'/public'));
+app.set('view engine', 'html');
+
+app.use(express.static(__dirname + '/public'));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -28,19 +36,19 @@ app.use(cookieParser());
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // render error 
   res.status(err.status || 500);
-  res.render('error');
+  res.send('error');
 });
 
 
