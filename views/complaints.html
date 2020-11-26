@@ -1,0 +1,10 @@
+<html>
+<head><title>complaints</title></head>
+<body>
+    <h1>{{dept_name}}</h1>
+    <h1>{{comp_type}}</h1>
+    {% for i in complaint %}
+    <h1>{{i.comp_desc}}</h1>
+    {% endfor %}
+</body>
+</html>

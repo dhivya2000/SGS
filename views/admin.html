@@ -6,8 +6,12 @@
 
 <body>
     ADMIN PAGE
-    <h1>
-        {{ depts[0].dept_name }}
-    </h1>
-
+    {% for i in depts %}
+    <form action="/user/comptypes" method="POST">
+        <h1>{{i.dept_name}}</h1>
+        <input type="text" id="dept_name" name="dept_name" value={{i.dept_name}} hidden>
+   <button type="submit">submit</button><br>
+   </form>
+    {% endfor %}
+</body>
 </html>

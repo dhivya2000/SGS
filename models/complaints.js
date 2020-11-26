@@ -10,14 +10,20 @@ const complaintSchema = new Schema({
     comp_type: {
         type: String,
         required: true,
-        unique:true,
+        unique:false,
     },
     comp_desc:{
         type: String,
-        required: true,
-        unique:true,  
-    } 
-   },{
+        required: true, 
+        unique:false,
+    },
+    dept_name:{
+        type:String,
+        required:true,
+        unique:false,
+    },
+},
+   {
     timestamps: true
 });
 

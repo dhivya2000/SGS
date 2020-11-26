@@ -3,6 +3,9 @@ var path = require('path');
 var router = express.Router();
 const user = require('../models/users');
 const deptDetails = require('../models/dept');
+const comtype = require('../models/comtype');
+const complaints = require('../models/complaints');
+
 
 /* GET home page. */
 router.post('/', function (req, res, next) {
@@ -35,6 +38,35 @@ router.post('/', function (req, res, next) {
   }
   else
     res.render('student');
+
+});
+router.post('/comptypes', function (req, res, next) {
+  var dept_name = req.body.dept_name;
+  //console.log(dept_name);
+  comtype.find(function (err, comtype) {
+    res.render('comptype', {
+      comtype:comtype,
+      dept_name:dept_name
+    }
+    );
+  }); 
+  
+
+});
+router.post('/comptypes/complaints', function (req, res, next) {
+  var dept_name = req.body.dept_name;
+  //console.log(dept_name);
+  var comp_type = req.body.comp_type;
+  //console.log(comp_type);
+  complaints.find({'dept_name':dept_name,"comp_type":comp_type},function (err, complaint) {
+    res.render('complaints', {
+      comp_type:comp_type,
+      dept_name:dept_name,
+      complaint:complaint
+    }
+    );
+  }); 
+  
 
 });
 

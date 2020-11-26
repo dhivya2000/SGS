@@ -1,0 +1,18 @@
+<html>
+
+<head>
+    <title>complaint_type</title>
+</head>
+
+<body>
+    ADMIN PAGE
+    <h1 name="dept_name">{{dept_name}}</h1>
+    {% for i in comtype %}
+    <form action="/user/comptypes/complaints" method="POST">
+        <h1>{{i.comp_type}}</h1>
+        <input type="text" id="dept_name" name="dept_name" value={{dept_name}} hidden>
+        <input type="text" id="comp_type" name="comp_type" value={{i.comp_type}} hidden>
+   <button type="submit">submit</button><br>
+   </form>
+    {% endfor %}
+</html>
