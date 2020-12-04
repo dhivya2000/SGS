@@ -5,14 +5,14 @@ const compTypeSchema = new Schema({
     comp_id: {
         type: Number,
         required: true,
-        unique:true,
+        unique: true,
     },
     comp_type: {
         type: String,
         required: true,
-        unique:true,
-    } 
-   },{
+        unique: true,
+    }
+}, {
     timestamps: true
 });
 

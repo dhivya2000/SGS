@@ -5,20 +5,20 @@ const userSchema = new Schema({
     u_name: {
         type: String,
         required: true,
-        unique:true,
+        unique: true,
     },
     u_pass: {
         type: String,
         required: true,
-        unique:true,
+        unique: true,
     },
     is_admin: {
-        type:Boolean,
+        type: Boolean,
         required: true,
-        unique:true,
+        unique: false,
     }
-    
-   },{
+
+}, {
     timestamps: true
 });
 

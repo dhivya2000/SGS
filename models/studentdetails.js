@@ -1,24 +1,28 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const complaintSchema = new Schema({
-    comp_type: {
+const studentSchema = new Schema({
+    student_name: {
         type: String,
         required: true,
+        unique: false,
     },
-    comp_desc: {
+    student_uname: {
         type: String,
         required: true,
+        unique: true,
+
     },
     dept_name: {
         type: String,
         required: true,
+        unique: false,
     },
 },
     {
         timestamps: true
     });
 
-var ComplaintSchema = mongoose.model('complaint_info', complaintSchema);
+var StudentSchema = mongoose.model('student_details', studentSchema);
 
-module.exports = ComplaintSchema;
+module.exports = StudentSchema;

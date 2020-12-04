@@ -10,6 +10,7 @@ const usersDetails = require('./models/users');
 const deptDetails = require('./models/dept');
 const comtypeDetails = require('./models/comtype');
 const comDetails = require('./models/complaints');
+const studentDetails = require('./models/studentdetails');
 const mongoose = require('mongoose');
 const url = 'mongodb://localhost:27017/SGS';
 const connect = mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });

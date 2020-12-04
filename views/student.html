@@ -1,6 +1,37 @@
 <html>
-    <head><title>student</title></head>
-    <body>
-        STUDENT PAGE
-    </body>
+
+<head>
+    <title>student</title>
+</head>
+
+<body>
+    Welcome
+    <button onclick="func()">Add Complaint</button>
+    <form action="/user/addcomplaint" method="POST">
+        <label for="ctype">Choose Type of the Complaint:</label><br>
+        <select id="ctype" name="ctype">
+            {% for i in complaints %}
+            <option value="{{i.comp_type}}">{{i.comp_type}}</option>
+            {% endfor %}
+        </select>
+        <label for="cdesc">Write your Grievance Here:</label><br>
+        <textarea id="cdesc" name="cdesc" rows="4" cols="50">
+            </textarea><br><br>
+        <button onclick="onbtnclick()">Add</button>
+    </form>
+</body>
+<script>
+    function func() {
+        var x = document.getElementById("cform");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function onbtnclick() {
+        alert("Complaint Registered successfully!!");
+    }
+</script>
+
 </html>
