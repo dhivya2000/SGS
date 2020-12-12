@@ -13,11 +13,21 @@ const studentSchema = new Schema({
         unique: true,
 
     },
+    student_pass:{
+        type:String,
+        required: true,
+        unique:true,
+    },
     dept_name: {
         type: String,
         required: true,
         unique: false,
     },
+    year : {
+       type:Number,
+       required:true,
+       unique:false,
+    }
 },
     {
         timestamps: true
