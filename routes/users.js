@@ -8,12 +8,30 @@ const complaints = require('../models/complaints');
 const studentdetails = require('../models/studentdetails');
 const UserSchema = require('../models/users');
 const session = require('express-session');
+const sgmail = require("@sendgrid/mail");
+//var sg = require('@sendgrid/mail')('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');
+//process.env.a=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;
+const dotenv = require('dotenv');
+dotenv.config();
+//console.log("Your port is"+ process.env.SENDGRID_API_KEY);
+//sg=require('./SENDGRID_API_KEY');
+//console.log("Your port is"+ sg);
+sgmail.setApiKey(process.env.SENDGRID_API_KEY);
+const msg = {
+  to:"dddnode@yopmail.com",
+  from:"ddddhivdhan@gmail.com",
+  subject:"test",
+  text:"hello world good day",
+  html:"<strong>hello world good day</strong>"
+};
+
 /* GET home page. */
-var deptname,student_uname,dept_name,comp_type;
+var deptname,student_uname,dept_name,comp_type,year,detailss;
 router.post('/', function (req, res, next) {
   var pwd1;
   var uname = req.body.uname;
   var pwd = req.body.pwd;
+  //var detailss;
   user.find({ 'u_name': uname }, function (err, teams) {
     if (err) {
       console.log(err);
@@ -42,15 +60,33 @@ router.post('/', function (req, res, next) {
           else {
             deptname = details[0].dept_name;
             student_uname = details[0].student_uname;
+            year = details[0].year;
+            complaints.find({ 'stud_uname': uname }, function (err, detailss) {
+              if (err) {
+                console.log(err);
+              }
+              else {
+                detailss=detailss;
+               // console.log(detailss);
+               comtype.find(function (err, complaints) {
+                console.log(detailss);
+                res.render('student', {
+                  complaints: complaints,
+                  detailss:detailss,
+                  deptname:deptname,
+                   year:year,
+                  student_uname:student_uname,
+                });
+      
+              });
+      
+              }
+            });
           }
         });
-        comtype.find(function (err, complaints) {
-          res.render('student', {
-            complaints: complaints
-          });
+        
 
-        });
-
+        
       }
       else {
         res.render('error');
@@ -85,19 +121,27 @@ router.post('/addcomplaint', function (req, res, next) {
     .then((complaint) => {
       console.log('Created');
       //move to the student.html page after registering the complaint(not working)
-      comtype.find(function (err, complaints) {
-        res.render('student', {
-          complaints: complaints
+      complaints.find({ 'stud_uname': student_uname }, function (err, detailss) {
+        if (err) {
+          console.log(err);
+        }
+        else {
+          detailss=detailss;
+         // console.log(detailss);
+         comtype.find(function (err, complaints) {
+          console.log(detailss);
+          res.render('student', {
+            complaints: complaints,
+            detailss:detailss,
+            deptname:deptname,
+             year:year,
+            student_uname:student_uname,
+          });
+
         });
-    
-     
 
-
-    },
-
-      (err) => next(err))
-    .catch((err) => next(err));
-  console.log(err);
+        }
+      });
   });
 
 
@@ -144,7 +188,40 @@ router.post('/check_status', function (req, res, next) {
     console.log("1 document updated");
     //db.close();
   });
-  
+  complaints.find({ '_id': c_id }, function (err, detailss) {
+              if (err) {
+                console.log(err);
+              }
+              else {
+                var stud_name=detailss[0].stud_uname;
+                studentdetails.find({'student_name':stud_name},function(err,studdetail) {
+                      if(err){
+                        console.log(err);
+                      }
+                      else
+                      {
+                          var email=studdetail[0].email;
+                          console.log(email);
+                          const msg = {
+                            to:email,
+                            from:"dddnode@yopmail.com",
+                            subject:"complaint",
+                            text:"complaint resolved",
+                          };
+                          sgmail
+                        .send(msg)
+                          .then(() => {
+                          console.log('Email sent')
+                             })
+                       .catch((error) => {
+                      console.error(error)
+                             })
+                      }
+                });
+               
+              
+              }
+    });
   complaints.find({ 'dept_name': dept_name, "comp_type": comp_type }, function (err, complaint) {
     res.render('complaints', {
       comp_type: comp_type,
@@ -162,8 +239,8 @@ router.post('/addStudent', function (req, res, next) {
   var s_pass = req.body.s_pass;
   var s_dept = req.body.s_dept;
   var s_year = req.body.s_year;
-
-  var newstudent = { student_name:s_name, student_uname:s_uname,student_pass: s_pass,dept_name:s_dept,year:s_year};
+  var s_email =  req.body.s_email;
+  var newstudent = { student_name:s_name, student_uname:s_uname,student_pass: s_pass,dept_name:s_dept,year:s_year,email:s_email};
   studentdetails.create(newstudent);
   var stud = {u_name:s_name,u_pass:s_pass,is_admin:false};
   UserSchema.create(stud);

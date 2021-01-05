@@ -3,13 +3,17 @@
 <head>
     <title>complaint_type</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
     .container {
     display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-top:70px ;
+    margin-top:100px ;
+    margin-left: 50px;
+    width:100%;
+    max-width: 5500;
   }
   .container > div {
   margin: 6px;
@@ -86,24 +90,27 @@
 
       <!-- <h1 name="dept_name">{{dept_name}}</h1> -->
     <div class="container">
-        
-    {% for i in comtype %}
-    <div class="w3-card-3;" style="width:23%">
-        <header class="w3-container w3-light-grey">
-    <form action="/user/comptypes/complaints" method="POST">
-        <h4 class="w3-cursive">{{i.comp_type}}</h4>
-        <input type="text" id="dept_name" name="dept_name" value={{dept_name}} hidden>
-        <input type="text" id="comp_type" name="comp_type" value={{i.comp_type}} hidden>
-        </header>
-        <div class="w3-container">
-            <p>{{dept_name}}</p>
-            <hr>
-            <img src="/images/pic1.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-            <p>CEO at Mighty Schools. Marketing and Advertising. Seeking a new job and new opportunities.</p><br>
+      {% for i in comtype %}
+      <div class="card" style="width:28%">
+        <div class="card-header">
+          {{dept_name}}
+        </div>
+        <div class="card-body">
+          <form action="/user/comptypes/complaints" method="POST">
+          <h5 class="card-title">{{i.comp_type}}</h5>
+          <input type="text" id="dept_name" name="dept_name" value={{dept_name}} hidden>
+          <input type="text" id="comp_type" name="comp_type" value={{i.comp_type}} hidden>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <button type="submit" class="btn btn-primary">Go somewhere</a>
+          </form>
           </div>
-          <button class="w3-button w3-block w3-dark-grey" type="submit">click</button>
-   </form>
+      </div>
+      {% endfor %}     
+   
     </div>
-    {% endfor %}
-    </div>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 </html>
