@@ -9,6 +9,25 @@ const studentdetails = require('../models/studentdetails');
 const UserSchema = require('../models/users');
 const session = require('express-session');
 const sgmail = require("@sendgrid/mail");
+var fs = require('fs');
+var bodyParser = require('body-parser');
+var multer = require('multer');
+
+var app = express();
+// app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(bodyParser.json())
+ 
+// var storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//       cb(null, 'uploads')
+//   },
+//   filename: (req, file, cb) => {
+//     //console.log(file);
+//       cb(null, file.fieldname + '-' + Date.now())
+//   }
+// });
+
+// var upload = multer({ storage: storage });
 //var sg = require('@sendgrid/mail')('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');
 //process.env.a=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;
 const dotenv = require('dotenv');
@@ -26,7 +45,7 @@ const msg = {
 };
 
 /* GET home page. */
-var deptname,student_uname,dept_name,comp_type,year,detailss;
+var deptname,student_uname,dept_name,comp_type,year,detailss,image;
 router.post('/', function (req, res, next) {
   var pwd1;
   var uname = req.body.uname;
@@ -67,7 +86,6 @@ router.post('/', function (req, res, next) {
               }
               else {
                 detailss=detailss;
-               // console.log(detailss);
                comtype.find(function (err, complaints) {
                 console.log(detailss);
                 res.render('student', {
@@ -180,15 +198,28 @@ router.post('/comptypes/complaints', function (req, res, next) {
 });
 router.post('/check_status', function (req, res, next) {
   var c_id = req.body.btn;
-  var myquery = { _id: c_id };
-  var newvalues = { $set: {comp_status:true} };
-  
+  var c1_id = req.body.btn1;
+  var c,status;
+  if (c_id == undefined)
+  {
+  var myquery = { _id: c1_id };
+  var newvalues = { $set: {comp_status:"reject"} };
+  c=c1_id;
+  status="rejected";
+  }
+  else
+  {
+    var myquery = { _id: c_id };
+    var newvalues = { $set: {comp_status:"solved"} };
+    c=c_id; 
+    status="resolved";
+  }
   complaints.updateOne(myquery, newvalues, function(err, res) {
     if (err) throw err;
     console.log("1 document updated");
     //db.close();
   });
-  complaints.find({ '_id': c_id }, function (err, detailss) {
+  complaints.find({ '_id': c }, function (err, detailss) {
               if (err) {
                 console.log(err);
               }
@@ -206,7 +237,7 @@ router.post('/check_status', function (req, res, next) {
                             to:email,
                             from:"dddnode@yopmail.com",
                             subject:"complaint",
-                            text:"complaint resolved",
+                            text:"complaint "+status,
                           };
                           sgmail
                         .send(msg)
@@ -240,7 +271,11 @@ router.post('/addStudent', function (req, res, next) {
   var s_dept = req.body.s_dept;
   var s_year = req.body.s_year;
   var s_email =  req.body.s_email;
-  var newstudent = { student_name:s_name, student_uname:s_uname,student_pass: s_pass,dept_name:s_dept,year:s_year,email:s_email};
+  // var paths = 'D:/SGS' + '/uploads/' + req.file.filename;
+  // console.log(req.file.filename);
+  // //console.log('D:/SGS' + '/uploads/' + req.file.filename);
+  var newstudent = { student_name:s_name, student_uname:s_uname,student_pass: s_pass,dept_name:s_dept,year:s_year,email:s_email}
+  
   studentdetails.create(newstudent);
   var stud = {u_name:s_name,u_pass:s_pass,is_admin:false};
   UserSchema.create(stud);

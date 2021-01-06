@@ -116,7 +116,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="/user/addStudent" method="POST">
+          <form action="/user/addStudent" method="POST" enctype="multipart/form-data">
           <div class="modal-body">
             
               <label for="s_name">Student Name:</label><br>
@@ -136,6 +136,9 @@
               <input type="number" id="s_year" name="s_year" required><br><br>
               <label for="s_email">Email:</label><br>
               <input type="email" id="s_email" name="s_email" required><br><br>
+              <!-- <label for="image">Upload Image</label>
+              <input type="file" id="image"
+                     name="image" value="" required><br><br> -->
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

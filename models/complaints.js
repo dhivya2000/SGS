@@ -19,9 +19,9 @@ const complaintSchema = new Schema({
         required: true,
     },
     comp_status:{
-        type:Boolean,
+        type:String,
         required:true,
-        default:false,
+        default:"false",
     }
 },
     {

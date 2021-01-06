@@ -86,7 +86,7 @@
     <div class="container">
     {% for i in complaint %}
     
-    {% if i.comp_status == false %}
+    {% if i.comp_status == "false" %}
     <div class="w3-card-3;" style="width:23%">
         <header class="w3-container w3-light-grey">   
      <h4 class="w3-cursive">{{i.comp_desc}}</h4>
@@ -99,10 +99,13 @@
     <form action="/user/check_status" method="POST">
         <button class="btn btn-primary " value={{i._id}} id="btn" name="btn">Solve it</button>
     </form>
+    <form action="/user/check_status" method="POST">
+      <button class="btn btn-primary " value={{i._id}} id="btn1" name="btn1">Reject it</button>
+  </form>
 </div>
 </div>
     
-    {% else %}
+    {% elif i.comp_status == "solved" %}
     <div class="w3-card-3;" style="width:23%">
         <header class="w3-container w3-light-grey"> 
             <h4 class="w3-cursive">{{i.comp_desc}}</h4>
@@ -112,7 +115,20 @@
         <hr>
         <img src="/images/pic1.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
         <p>CEO at Mighty Schools. Marketing and Advertising. Seeking a new job and new opportunities.</p><br>
-    <button class="btn btn-primary " >Solved </button>
+    <button class="btn btn-primary " >Solved</button>
+</div>
+</div>
+{% else %}
+<div class="w3-card-3;" style="width:23%">
+  <header class="w3-container w3-light-grey"> 
+      <h4 class="w3-cursive">{{i.comp_desc}}</h4>
+      </header>
+<div class="w3-container">
+  <p>Rejected</p>
+  <hr>
+  <img src="/images/pic1.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+  <p>CEO at Mighty Schools. Marketing and Advertising. Seeking a new job and new opportunities.</p><br>
+<button class="btn btn-primary " >Rejected </button>
 </div>
 </div>
     {% endif %}
