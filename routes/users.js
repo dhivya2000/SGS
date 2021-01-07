@@ -6,6 +6,7 @@ const deptDetails = require('../models/dept');
 const comtype = require('../models/comtype');
 const complaints = require('../models/complaints');
 const studentdetails = require('../models/studentdetails');
+const announcements=require('../models/announcements');
 const UserSchema = require('../models/users');
 const session = require('express-session');
 const sgmail = require("@sendgrid/mail");
@@ -86,9 +87,11 @@ router.post('/', function (req, res, next) {
               }
               else {
                 detailss=detailss;
+                announcements.find(function (err, announces){
                comtype.find(function (err, complaints) {
                 console.log(detailss);
                 res.render('student', {
+                  announces:announces,
                   complaints: complaints,
                   detailss:detailss,
                   deptname:deptname,
@@ -97,7 +100,7 @@ router.post('/', function (req, res, next) {
                 });
       
               });
-      
+            });
               }
             });
           }
@@ -146,9 +149,11 @@ router.post('/addcomplaint', function (req, res, next) {
         else {
           detailss=detailss;
          // console.log(detailss);
+         announcements.find(function (err, announces){
          comtype.find(function (err, complaints) {
           console.log(detailss);
           res.render('student', {
+            announces:announces,
             complaints: complaints,
             detailss:detailss,
             deptname:deptname,
@@ -157,7 +162,7 @@ router.post('/addcomplaint', function (req, res, next) {
           });
 
         });
-
+      });
         }
       });
   });
@@ -169,12 +174,14 @@ router.post('/addcomplaint', function (req, res, next) {
 
 router.post('/comptypes', function (req, res, next) {
   var dept_name = req.body.dept_name;
+  
   comtype.find(function (err, comtype) {
-    res.render('comptype', {
+      res.render('comptype', {
       comtype: comtype,
       dept_name: dept_name
     }
     );
+ 
   });
 
 
@@ -288,5 +295,17 @@ router.post('/addStudent', function (req, res, next) {
   
 
 });
+router.post('/addannoucement', function (req, res, next) {
+  var splittime = Date();
+  splittime=splittime.slice(0,15);
+  var newannounce = {reg_title:req.body.reg_anc,announcement:req.body.anc,addtime:splittime};
+  announcements.create(newannounce);
+  deptDetails.find(function (err, depts) {
+    res.render('admin', {
+      depts: depts
+    });
+  });
+});
+
 
 module.exports = router;

@@ -114,16 +114,17 @@
         <a href="#default" id="logo"><div class="w3-cursive">Student Login</div></a>
         <div id="navbar-right">
           <a href="#" data-toggle="modal" data-target="#id01">Add Complaint</a>
-          <a href="#" onclick="document.getElementById('id02').style.display='block'">Log out</a>
+          <a href="#" data-toggle="modal" data-target="#id03">View Annoucements</a>
+          <a href="/" class="active">Log out</a>
         </div>
       </div>
       <div class="split left">
       <div class="card">
         <img src="/images/img2.png" style="width:100%">
         <div class="container1">
-          <h4><b>Name:{{student_uname}}</b></h4> 
-          <p>Dept:{{deptname}}</p> 
-          <p>Year:{{year}}</p>
+          <h4><b>Name: {{student_uname}}</b></h4> 
+          <p><b>Dept: {{deptname}}</b></p> 
+          <p><b>Year: {{year}}</b></p>
         </div>
       </div>
     </div>
@@ -205,6 +206,32 @@
             </div>
           </div>
         </div>
+        <div class="modal fade" id="id03" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Announcements</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            
+              <div class="modal-body">
+                {% if announces=="" %}
+                <h2>--No Announcements--</h2>
+                {% else %}
+                {% for i in announces %}
+                  <h3>{{i.reg_title}}:</h3>
+                  <h4>{{i.announcement}}</h4>
+                  <h5>{{i.addtime}}</h5>
+                  <hr>
+                  {% endfor %}
+                  {% endif %}
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+      
       </div>
   
 </body>
