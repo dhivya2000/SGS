@@ -1,17 +1,21 @@
 <html>
 <head><title>complaints</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
-        .container {
+.container {
     display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-top:90px ;
+    margin-top:100px ;
+    margin-left: 0px;
+    width:100%;
+    max-width: 5500;
   }
   .container > div {
   margin: 6px;
-}
+} 
 #navbar {
   overflow: hidden;
   background-color: #f1f1f1;
@@ -72,10 +76,9 @@
 </head>
 <body>
     <div id="navbar">
-        <a href="#default" id="logo"><div class="w3-cursive">{{dept_name}}|{{comp_type}}</div></a>
+        <a href="#default" id="logo"><div class="w3-cursive">{{dept_name}}</div></a>
         <div id="navbar-right">
-          <a class="active" href="/">Home</a>
-          <a href="#" onclick="document.getElementById('id02').style.display='block'">Log out</a>
+          <a class="active" href="/">Log out</a>
         </div>
       </div>
     
@@ -86,37 +89,109 @@
     <div class="container">
     {% for i in complaint %}
     
-    {% if i.comp_status == false %}
-    <div class="w3-card-3;" style="width:23%">
-        <header class="w3-container w3-light-grey">   
-     <h4 class="w3-cursive">{{i.comp_desc}}</h4>
-     </header>
-     <div class="w3-container">
-        <p>pending</p>
-        <hr>
-        <img src="/images/pic1.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <p>CEO at Mighty Schools. Marketing and Advertising. Seeking a new job and new opportunities.</p><br>
-    <form action="/user/check_status" method="POST">
-        <button class="btn btn-primary " value={{i._id}} id="btn" name="btn">Solve it</button>
-    </form>
-</div>
-</div>
+    {% if i.comp_status == "false" %}
+    <div class="card" style="width:18%">
+      <div class="card-header">
+        {{i.comp_type}}&emsp;     
+        <button data-toggle="modal" data-target="#id0{{i._id}}">Comments</button>
+      
+        <div class="modal fade" id="id0{{i._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/user/addcomments" method="POST">
+            
+              {% for j in i.comments %}
+              <p>{{j.username}}- {{j.text}}</p>
+              {% endfor %}
+              <input type="number" id="ids" name="ids" value={{i._id}} hidden > 
+              <input type="text" id="user" name="user" value="admin" hidden>
+                <label for="com">Comments:</label><br>
+                <input type="text" id="com" name="com" required><br>
+                  <br>
+                 
+            
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button  type="submit" class="btn btn-primary"  >Save changes</button>
+            
+            </form>
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        
+        <h5 class="card-title">pending</h5>
+        <p class="card-text">{{i.comp_desc}}</p>
+        <p class="card-text"> 
+          <table class="table">
+            <tr>
+              <td>
+        <form action="/user/check_status" method="POST">
+        <button type="submit" class="btn btn-primary" value={{i._id}} id="btn" name="btn">Solve it</button>
+        </form>
+      </td>
+      <td>
+        <form action="/user/check_status" method="POST">
+           <button type="submit" class="btn btn-primary" value={{i._id}} id="btn1" name="btn1">Reject it</button>
+          </form>
+        </td>
+        </tr>
+        </table>
+        </p>
+        </div>
+
+    </div>
+  
+    {% elif i.comp_status == "solved" %}
+    <div class="card" style="width:18%">
+      <div class="card-header">
+        {{i.comp_type}}
+      </div>
+      <div class="card-body">
+        
+        <h5 class="card-title">solved</h5>
+        <p class="card-text">{{i.comp_desc}}</p>
+        <table class="table">
+          <tr>
+      <td> <p class="card-text"> <button type="submit" class="btn btn-primary">Solved</button></p></td>
+      </tr>
+      </table>
+        
+        </div>
+    </div>
+  
+{% else %}
+<div class="card" style="width:18%">
+  <div class="card-header">
+    {{i.comp_type}}
+  </div>
+  <div class="card-body">
     
-    {% else %}
-    <div class="w3-card-3;" style="width:23%">
-        <header class="w3-container w3-light-grey"> 
-            <h4 class="w3-cursive">{{i.comp_desc}}</h4>
-            </header>
-    <div class="w3-container">
-        <p>completed</p>
-        <hr>
-        <img src="/images/pic1.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <p>CEO at Mighty Schools. Marketing and Advertising. Seeking a new job and new opportunities.</p><br>
-    <button class="btn btn-primary " >Solved </button>
+    <h5 class="card-title">Rejected</h5>
+    <p class="card-text">{{i.comp_desc}}</p>
+    <table class="table">
+      <tr>
+   <td> <p class="card-text"> <button type="submit" class="btn btn-primary">Rejected</button></p></td>
+  </tr>
+  </table>
+    </div>
 </div>
-</div>
-    {% endif %}
+  {% endif %}
     {% endfor %}
 </div>
+
+
 </body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 </html>
