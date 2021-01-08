@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 autoIncrement = require('mongoose-auto-increment');
+//const Comment = require('./comment');
+
+const Comment = new Schema({
+    username: String,
+    text: String
+  });
+
 const complaintSchema = new Schema({
     comp_type: {
         type: String,
@@ -22,8 +29,9 @@ const complaintSchema = new Schema({
         type:String,
         required:true,
         default:"false",
-    }
-},
+    },
+    comments: [Comment],
+    },
     {
         timestamps: true
     });

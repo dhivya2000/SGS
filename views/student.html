@@ -9,9 +9,16 @@
     flex-direction: row;
     flex-wrap: wrap;
     margin-top:100px ;
-    margin-left: 0px;
-    width:100%;
+    margin-left:400px;
+    /* width:100%; */
     max-width: 5500;
+    right: 0;
+    width: 70%;
+  /* position: fixed; */
+  /* z-index: 1;
+  top: 0;
+  overflow-x: hidden; */
+  padding-top: 20px;
   }
   .container > div {
   margin: 6px;
@@ -74,7 +81,7 @@
 .card {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  width: 60%;
+  width: 70%;
   margin-top: 120px;
 }
 
@@ -91,9 +98,9 @@
 .split {
   height: 100%;
   position: fixed;
-  z-index: 1;
+  /* z-index: 1;
   top: 0;
-  overflow-x: hidden;
+  overflow-x: hidden; */
   padding-top: 20px;
 }
 
@@ -128,15 +135,46 @@
         </div>
       </div>
     </div>
-    <div class="split right">
+    <!-- <div class="split right"> -->
         <div class="container">
             {% for i in detailss %}
             
             {% if i.comp_status == "false" %}
             <div class="card" style="width:28%">
                 <div class="card-header">
-                  Your Complaints
+                  Your Complaints&emsp; <button data-toggle="modal" data-target="#id0{{i._id}}">Comments</button>
+                  <div class="modal" id="id0{{i._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form action="/user/addcomments" method="POST">
+                        <div class="modal-body">
+                          {% for j in i.comments %}
+                          <p>{{j.username}}- {{j.text}}</p>
+                          {% endfor %}
+                          <input type="number" id="ids" name="ids" value={{i._id}} hidden>
+                          <input type="text" id="user" name="user" value={{student_uname}} hidden>
+                            <label for="com">Comment:</label><br>
+                            <input type="text" id="com" name="com" required><br>
+                              <br>
+                             </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button  type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                        </form>
+                        </div>
+                      </div>
+                    </div>
+              
                 </div>
+                
+              
                 <div class="card-body">
                   
                   <h5 class="card-title">{{i.dept_name}}</h5>
@@ -175,7 +213,7 @@
             {% endif %}
             {% endfor %}
         </div>
-    </div>
+    <!-- </div> -->
     <div class="modal fade" id="id01" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -233,7 +271,7 @@
           </div>
       
       </div>
-  
+      
 </body>
 <script>
 function onbtnclick() {
